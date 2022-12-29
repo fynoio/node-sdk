@@ -2,7 +2,7 @@ This is the official Node.js module for sending notifications through [Fyno.io.]
 
 You can use this module to send notifications to any channel (SMS, Email, WhatsApp, Push, Discord, Teams, Slack, etc).
 
-![Fyno: Fire your notifications](https://media-exp1.licdn.com/dms/image/D561BAQGlc_gJy29kQA/company-background_10000/0/1660044270257?e=1670940000&v=beta&t=Hxq_mWNsivmJ1j0FZZvvHhwQtXvQSrhEMQ2BPMpPYVU)
+![Fyno: Fire your notifications](https://fynodev.s3.ap-south-1.amazonaws.com/others/Fyno_Banner.jpeg)
 
 # Installation
 ``` js

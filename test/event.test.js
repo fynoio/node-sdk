@@ -1,5 +1,4 @@
 const { Fyno } = require("../src");
-const moment = require("moment");
 
 const to = {
     sms: "",
@@ -20,6 +19,7 @@ const event_name = "test-cases";
 
 const success_response = {
     request_id: expect.anything(),
+    received_time: expect.anything(),
     event: event_name,
     response: {
         sms: {
@@ -54,13 +54,53 @@ const success_response = {
     },
 };
 
+const success_response_batch = {
+    request_id: expect.anything(),
+    received_time: expect.anything(),
+    event: event_name,
+    response: [
+        {
+            seq: 1,
+            sms: {
+                status: "error",
+                message: expect.anything(),
+            },
+            whatsapp: {
+                status: "error",
+                message: expect.anything(),
+            },
+            email: {
+                status: "error",
+                message: expect.anything(),
+            },
+            slack: {
+                status: "ok",
+                destination: to.slack,
+                msg_id: expect.anything(),
+            },
+            discord: {
+                status: "error",
+                message: expect.anything(),
+            },
+            teams: {
+                status: "error",
+                message: expect.anything(),
+            },
+            push: {
+                status: "error",
+                message: expect.anything(),
+            },
+        },
+    ],
+};
+
 const failure_response = {
     status: "error",
     _message: "Invalid API details",
 };
 
-describe("Firing an event should", () => {
-    test("Fail when WSID supplied is incorrect", async () => {
+describe("Firing an event", () => {
+    test("Should fail when WSID supplied is incorrect", async () => {
         let response;
 
         try {
@@ -72,7 +112,7 @@ describe("Firing an event should", () => {
 
         expect(response).toMatchObject(failure_response);
     });
-    test("Fail when WSID supplied is invalid", async () => {
+    test("Should fail when WSID supplied is invalid", async () => {
         let response;
 
         try {
@@ -83,7 +123,7 @@ describe("Firing an event should", () => {
 
         expect(response).toBe(`Workspace ID value '12345' is invalid`);
     });
-    test("Fail when API Key supplied is incorrect", async () => {
+    test("Should fail when API Key supplied is incorrect", async () => {
         let response;
 
         try {
@@ -98,7 +138,7 @@ describe("Firing an event should", () => {
 
         expect(response).toMatchObject(failure_response);
     });
-    test("Fail when API Key supplied is invalid", async () => {
+    test("Should fail when API Key supplied is invalid", async () => {
         let response;
 
         try {
@@ -109,7 +149,7 @@ describe("Firing an event should", () => {
 
         expect(response).toBe(`API Key value '12345' is invalid`);
     });
-    test("Fail when ENV supplied is invalid", async () => {
+    test("Should fail when ENV supplied is invalid (single)", async () => {
         let response;
         try {
             const fyno = new Fyno(undefined, undefined, "random");
@@ -121,32 +161,48 @@ describe("Firing an event should", () => {
             `Environment value 'random' is invalid. It should be either 'prod' or 'dev'.`
         );
     });
-    test("Work when all credentials are correct and supplied through ENV file", async () => {
+    test("Should succeed when all credentials are correct and supplied through ENV file (single)", async () => {
         const fyno = new Fyno();
-        const unix_time = moment().valueOf();
         const response = await fyno.fire(event_name, { to, data });
 
-        expect(response.received_time).toBeGreaterThanOrEqual(unix_time);
         expect(response).toMatchObject(success_response);
     });
-    test("Work when all credentials are correct and supplied manually", async () => {
+    test("Should succeed when all credentials are correct and supplied through ENV file (batch)", async () => {
+        const fyno = new Fyno();
+        const response = await fyno.fire(event_name, [{ to, data }]);
+
+        expect(response).toMatchObject(success_response_batch);
+    });
+    test("Should succeed when all credentials are correct and supplied manually (single)", async () => {
         const fyno = new Fyno(
             process.env.FYNO_WSID,
             process.env.FYNO_API_KEY,
             process.env.FYNO_ENV
         );
-        const unix_time = moment().valueOf();
         const response = await fyno.fire(event_name, { to, data });
 
-        expect(response.received_time).toBeGreaterThanOrEqual(unix_time);
         expect(response).toMatchObject(success_response);
     });
-    test("Work when all credentals are correct and supplied manually and through ENV files", async () => {
+    test("Should succeed when all credentials are correct and supplied manually (batch)", async () => {
+        const fyno = new Fyno(
+            process.env.FYNO_WSID,
+            process.env.FYNO_API_KEY,
+            process.env.FYNO_ENV
+        );
+        const response = await fyno.fire(event_name, [{ to, data }]);
+
+        expect(response).toMatchObject(success_response_batch);
+    });
+    test("Should succeed when all credentals are correct and supplied manually and through ENV files (single)", async () => {
         const fyno = new Fyno(process.env.FYNO_WSID);
-        const unix_time = moment().valueOf();
         const response = await fyno.fire(event_name, { to, data });
 
-        expect(response.received_time).toBeGreaterThanOrEqual(unix_time);
         expect(response).toMatchObject(success_response);
+    });
+    test("Should succeed when all credentals are correct and supplied manually and through ENV files (batch)", async () => {
+        const fyno = new Fyno(process.env.FYNO_WSID);
+        const response = await fyno.fire(event_name, [{ to, data }]);
+
+        expect(response).toMatchObject(success_response_batch);
     });
 });

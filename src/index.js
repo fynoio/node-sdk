@@ -1,36 +1,36 @@
-const axios = require("axios");
-
-const API_URL = "https://api.fyno.io/v1/";
+const { Event } = require("./Event");
 
 class Fyno {
     wsid = process.env.FYNO_WSID;
     api_key = process.env.FYNO_API_KEY;
     env = process.env.FYNO_ENV || "prod";
+    endpoint = process.env.FYNO_ENDPOINT || "https://api.fyno.io/v1/";
 
-    constructor(wsid = this.wsid, api_key = this.api_key, env = this.env) {
+    constructor(
+        wsid = this.wsid,
+        api_key = this.api_key,
+        env = this.env,
+        endpoint = this.endpoint
+    ) {
         this.wsid = wsid;
         this.api_key = api_key;
         this.env = env;
-        this.api_url = `${API_URL}${this.wsid}${this.getENVUrl()}`;
+        // WSID and ENV values get appended to the endpoint
+        this.endpoint = new URL(`${this.wsid}/${this.env}`, endpoint).href;
         this.headers = this.getHeaders();
 
         this.validate();
     }
 
-    getENVUrl() {
-        return `${this.env === "dev" ? "/dev" : ""}`;
-    }
-
     getHeaders() {
         return {
-            headers: {
-                Authorization: `Bearer ${this.api_key}`,
-                "Content-Type": "application/json",
-            },
+            Authorization: `Bearer ${this.api_key}`,
+            "Content-Type": "application/json",
         };
     }
 
     validate() {
+        // the validation checks if the provided WSID, API Key, and ENV values are correct
         if (!this.wsid || this.wsid.length < 10 || this.wsid.length > 20) {
             throw new Error(`Workspace ID value '${this.wsid}' is invalid`);
         } else if (
@@ -46,22 +46,11 @@ class Fyno {
         }
     }
 
-    fire = async (event, payload) => {
-        return new Promise((resolve, reject) => {
-            axios
-                .post(
-                    `${this.api_url}/event`,
-                    { event, ...payload },
-                    this.headers
-                )
-                .then((resp) => {
-                    resolve(resp.data);
-                })
-                .catch((error) => {
-                    reject(error.response.data);
-                });
-        });
-    };
+    async fire(event, payload) {
+        // this function fires the event
+        const _event = new Event(this.endpoint, this.headers, event, payload);
+        return _event.trigger();
+    }
 }
 
 module.exports = {
