@@ -20,7 +20,7 @@ jobs:
         env:
           FYNO_WSID: ${{secrets.fyno_wsid}}
           FYNO_API_KEY: ${{secrets.fyno_api_key}}
-          FYNO_ENV: ${{secrets.fyno_env}}
+          FYNO_VERSION: ${{secrets.fyno_version}}
 
   publish-npm:
     needs: build

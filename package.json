@@ -1,6 +1,6 @@
 {
   "name": "@fyno/node",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "This is the official Node.js module for sending notifications through Fyno.io.",
   "main": "src/index.js",
   "scripts": {

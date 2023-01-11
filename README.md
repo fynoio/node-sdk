@@ -55,3 +55,46 @@ fyno.fire("<EventName>", {
     },
 })
 ```
+
+The snippet above lets you fire notifications to a single user. If you wish to fire notifications to multiple users, see the code snippet below.
+
+# Sending Bulk Notifications
+To fire an event to multiple users, use the following code snippet:
+
+``` js
+fyno.fire("<EventName>", [
+        {
+            to: {
+                // User 1 details
+                sms: "", // Enter number with country code
+                whatsapp: "", // Enter WhatsApp number with country code
+                email: "", // Enter email address
+                slack: "", // Enter slack ID or email address
+                discord: "", // Enter discord ID
+                teams: "", // Enter channel name
+                push: "", // Enter push token
+            },
+            data: {
+                // Enter data here
+            },
+        },
+        {
+            to: {
+                // User 2 details
+                sms: "", // Enter number with country code
+                whatsapp: "", // Enter WhatsApp number with country code
+                email: "", // Enter email address
+                slack: "", // Enter slack ID or email address
+                discord: "", // Enter discord ID
+                teams: "", // Enter channel name
+                push: "", // Enter push token
+            },
+            data: {
+                // Enter data here
+            },
+        },
+    ]);
+```
+**Caution:** The maximum accepted payload size (for bulk send) is 10 MB.
+
+For more details, please visit our [API Reference guide](https://docs.fyno.io/reference).
