@@ -2,7 +2,7 @@ This is the official Node.js module for sending notifications through [Fyno.io.]
 
 You can use this module to send notifications to any channel (SMS, Email, WhatsApp, Push, Discord, Teams, Slack, etc).
 
-![Fyno: Fire your notifications](https://media-exp1.licdn.com/dms/image/D561BAQGlc_gJy29kQA/company-background_10000/0/1660044270257?e=1670940000&v=beta&t=Hxq_mWNsivmJ1j0FZZvvHhwQtXvQSrhEMQ2BPMpPYVU)
+![Fyno: Fire your notifications](https://fynodev.s3.ap-south-1.amazonaws.com/others/Fyno_Banner.jpeg)
 
 # Installation
 ``` js
@@ -22,7 +22,7 @@ You will need to:
 We recommend using environment variables for storing your Workspace ID and API Key. To set values for these variables, use the following variable names:
 - **FYNO_WSID:** To store the Workspace ID.
 - **FYNO_API_KEY:** To store the API Key.
-- **FYNO_ENV:** To specify the environment you wish to use for sending notification. Possible values: dev, prod. Default: prod.
+- **FYNO_VERSION:** To specify the version you wish to use for sending notifications. Possible values: test, live. Default: live.
 
 # Getting Started
 Here's a code snippet that can help you get started:
@@ -37,7 +37,7 @@ const fyno = new Fyno();
 // const fyno = new Fyno(
 //     "<FYNO_WSID>",
 //     "<FYNO_API_KEY>",
-//     "<FYNO_ENV>"
+//     "<FYNO_VERSION>"
 // );
 
 fyno.fire("<EventName>", {
