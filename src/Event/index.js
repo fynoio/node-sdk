@@ -19,7 +19,10 @@ class Event {
             retryDelay: axiosRetry.exponentialDelay,
             retryCondition: (error) => {
                 // if retry condition is not specified, by default idempotent requests are retried
-                return error.response.status !== 202;
+                return (
+                    error.response.status !== 202 &&
+                    error.response.status !== 401
+                );
             },
         });
     }
