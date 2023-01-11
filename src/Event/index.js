@@ -1,4 +1,5 @@
 const axios = require("axios");
+const axiosRetry = require("axios-retry");
 
 class Event {
     constructor(endpoint, headers, event, payload) {
@@ -12,6 +13,15 @@ class Event {
             this.endpoint = new URL("event/bulk", endpoint).href;
             this.payload = { event, batch: payload };
         }
+
+        axiosRetry(axios, {
+            retries: 3, // number of retries
+            retryDelay: axiosRetry.exponentialDelay,
+            retryCondition: (error) => {
+                // if retry condition is not specified, by default idempotent requests are retried
+                return error.response.status !== 202;
+            },
+        });
     }
 
     trigger = async () => {
@@ -22,7 +32,7 @@ class Event {
                     resolve(resp.data);
                 })
                 .catch((error) => {
-                    reject(error.response.data);
+                    reject(error.response?.data);
                 });
         });
     };

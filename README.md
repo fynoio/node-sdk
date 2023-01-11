@@ -22,7 +22,7 @@ You will need to:
 We recommend using environment variables for storing your Workspace ID and API Key. To set values for these variables, use the following variable names:
 - **FYNO_WSID:** To store the Workspace ID.
 - **FYNO_API_KEY:** To store the API Key.
-- **FYNO_ENV:** To specify the environment you wish to use for sending notification. Possible values: dev, prod. Default: prod.
+- **FYNO_VERSION:** To specify the version you wish to use for sending notifications. Possible values: test, live. Default: live.
 
 # Getting Started
 Here's a code snippet that can help you get started:
@@ -37,7 +37,7 @@ const fyno = new Fyno();
 // const fyno = new Fyno(
 //     "<FYNO_WSID>",
 //     "<FYNO_API_KEY>",
-//     "<FYNO_ENV>"
+//     "<FYNO_VERSION>"
 // );
 
 fyno.fire("<EventName>", {

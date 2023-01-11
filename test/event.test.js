@@ -158,7 +158,7 @@ describe("Firing an event", () => {
         }
 
         expect(response).toBe(
-            `Environment value 'random' is invalid. It should be either 'prod' or 'dev'.`
+            `Environment value 'random' is invalid. It should be either 'test' or 'live'.`
         );
     });
     test("Should succeed when all credentials are correct and supplied through ENV file (single)", async () => {
@@ -177,7 +177,7 @@ describe("Firing an event", () => {
         const fyno = new Fyno(
             process.env.FYNO_WSID,
             process.env.FYNO_API_KEY,
-            process.env.FYNO_ENV
+            process.env.FYNO_VERSION
         );
         const response = await fyno.fire(event_name, { to, data });
 
@@ -187,7 +187,7 @@ describe("Firing an event", () => {
         const fyno = new Fyno(
             process.env.FYNO_WSID,
             process.env.FYNO_API_KEY,
-            process.env.FYNO_ENV
+            process.env.FYNO_VERSION
         );
         const response = await fyno.fire(event_name, [{ to, data }]);
 
