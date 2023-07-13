@@ -4,7 +4,7 @@ class Profile {
     constructor(endpoint, headers, distinct_id, payload) {
         // User profile trigger API endpoint is prepared
         this.distinct_id = distinct_id;
-        this.endpoint = new URL("profiles", endpoint).href;
+        this.endpoint = new URL("profiles/", endpoint).href;
         this.payload = { distinct_id, ...payload };
         this.headers = headers;
     }
@@ -105,16 +105,19 @@ class Profile {
                 `${this.endpoint}/${this.distinct_id}/channel/delete`
             ).href;
             const _channel_object = {};
-            switch (channel_name) {
-                case "push":
-                    _channel_object.push = [token];
-                    break;
-                case "inapp":
-                    _channel_object.inapp = [token];
-                    break;
-                default:
-                    _channel_object.channel = [channel_name];
-                    break;
+            if (Array.isArray(channel_name)) {
+                _channel_object.channel = [...channel_name];
+            } else {
+                switch (channel_name) {
+                    case "push":
+                        _channel_object.push = [token];
+                        break;
+                    case "inapp":
+                        _channel_object.inapp = [token];
+                        break;
+                    default:
+                        _channel_object.channel = [channel_name];
+                }
             }
             return this.request(url, _channel_object, "POST");
         } catch (error) {

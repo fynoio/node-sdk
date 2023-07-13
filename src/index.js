@@ -1,6 +1,5 @@
 const { Event } = require("./Event");
 const Profile = require("./Profile");
-require("dotenv").config();
 
 class Fyno {
     wsid = process.env.FYNO_WSID;
@@ -19,7 +18,7 @@ class Fyno {
         this.api_key = api_key;
         this.version = version;
         // WSID and VERSION values get appended to the endpoint
-        this.endpoint = new URL(`${this.wsid}/${this.version}`, endpoint).href;
+        this.endpoint = new URL(`${this.wsid}/${this.version}/`, endpoint).href;
         this.headers = this.getHeaders();
 
         this.validate();
