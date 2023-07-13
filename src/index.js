@@ -1,10 +1,13 @@
 const { Event } = require("./Event");
+const Profile = require("./Profile");
+require("dotenv").config();
 
 class Fyno {
     wsid = process.env.FYNO_WSID;
     api_key = process.env.FYNO_API_KEY;
     version = process.env.FYNO_VERSION || "live";
     endpoint = process.env.FYNO_ENDPOINT || "https://api.fyno.io/v1/";
+    profile = null;
 
     constructor(
         wsid = this.wsid,
@@ -50,6 +53,60 @@ class Fyno {
         // this function fires the event
         const _event = new Event(this.endpoint, this.headers, event, payload);
         return _event.trigger();
+    }
+
+    async identify(distinct_id, payload) {
+        const profile = new Profile(
+            this.endpoint,
+            this.headers,
+            distinct_id,
+            payload
+        );
+        this.profile = profile;
+        return this;
+    }
+
+    async create() {
+        return await this.profile.createProfile();
+    }
+
+    async update(distinct_id, payload) {
+        const profile = new Profile(
+            this.endpoint,
+            this.headers,
+            distinct_id,
+            payload
+        );
+        this.profile = profile;
+        return profile.updateProfile();
+    }
+
+    async setEmail(token) {
+        return await this.profile.addChannelData("slack", { token });
+    }
+
+    async setSms(token) {
+        return await this.profile.addChannelData("slack", { token });
+    }
+
+    async setSlack(token) {
+        return await this.profile.addChannelData("slack", { token });
+    }
+
+    async setDiscord(token) {
+        return await this.profile.addChannelData("discord", { token });
+    }
+
+    async setTeams(token) {
+        return await this.profile.addChannelData("teams", { token });
+    }
+
+    async setWhatsapp(token) {
+        return await this.profile.addChannelData("whatsapp", { token });
+    }
+
+    async clearChannel(channel, token = null) {
+        return await this.profile.ClearChannelData(channel, token);
     }
 }
 
