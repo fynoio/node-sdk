@@ -98,3 +98,70 @@ fyno.fire("<EventName>", [
 **Caution:** The maximum accepted payload size (for bulk send) is 10 MB.
 
 For more details, please visit our [API Reference guide](https://docs.fyno.io/reference).
+
+# Creating a user profile
+You can create a user profile using `identify()` method and update the existing profile with `updateProfile()` method, use the below snipped to create user profile in Fyno
+
+```js
+const profile = fyno.identify("<DISTINCTID>", {
+    name: "<FULL NAME>",
+    channel: {
+        sms: "", // Enter mobile number for sms channel with country code
+        whatsapp: "", // Enter mobile number for whatsapp channel with country code
+        email: "", // Enter email address
+        slack: "", // Enter Slack Id or Email address
+        discord: "", // Enter Discord id
+        teams: "", // Enter channel name
+        inapp: [{
+            token: "", // Enter Inapp token
+            integration_id: "", // Enter Inapp integration ID to be used for this token.
+            status: "" // Status of token
+        }],
+        push: [{
+            token: "", // Enter Push token
+            integration_id: "", // Enter Push integration ID to be used for this token.
+            status: "" // Status of token
+        }]
+    }
+})
+profile.create()
+```
+
+use the below code to update the existing profile
+
+```js
+const profile = fyno.update("<DISTINCTID>", {
+    name: "<MODIFIED_FULL NAME>",
+    channel: {
+        sms: "", // Enter mobile number for sms channel with country code
+        whatsapp: "", // Enter mobile number for whatsapp channel with country code
+        email: "", // Enter email address
+        slack: "", // Enter Slack Id or Email address
+        discord: "", // Enter Discord id
+        teams: "", // Enter channel name
+        inapp: [{
+            token: "", // Enter Inapp token
+            integration_id: "", // Enter Inapp integration ID to be used for this token.
+            status: "" // Status of token
+        }],
+        push: [{
+            token: "", // Enter Push token
+            integration_id: "", // Enter Push integration ID to be used for this token.
+            status: "" // Status of token
+        }]
+    }
+})
+```
+
+# Adding and Removing Channels against a proflie
+Once user is created you can use the returned object to add or remove channle data, use the below snippet to add/remove channle data
+
+```js
+const profile = fyno.identify("<DISTINCTID>")
+//This will add sms number against the profile
+profile.setSms("<MOBILE_NUMBER>")
+//This will clear sms channel
+profile.clearChannel(["sms", "whatsapp"])
+```
+
+> **_NOTE:_** For clearing channel you can just pass channel name except for inapp and push, for inapp and push you need to pass token like `profile.clearChannel("inapp", "<INAPP_TOKEN>")`
