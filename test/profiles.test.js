@@ -1,4 +1,5 @@
 const { Fyno } = require("../src");
+const axios = require("axios");
 
 const success_response = {
     create: {
@@ -57,12 +58,16 @@ describe("Creating user profile", () => {
         }
     });
 
-    afterAll(() => {
+    afterAll(async () => {
         const fyno = new Fyno();
-        fetch(`${fyno.endpoint}profiles/delete`, {
+
+        const options = {
             method: "POST",
+            url: `${fyno.endpoint}profiles/delete`,
             headers: fyno.headers,
-            body: JSON.stringify({ distinct_id: ["testcases"] }),
-        });
+            data: { distinct_id: ["testcases"] },
+        };
+
+        await axios.request(options);
     });
 });
