@@ -11,7 +11,7 @@ class Profile {
 
     async updateProfile() {
         try {
-            const url = new URL(`${this.endpoint}/${this.distinct_id}`).href;
+            const url = new URL(`${this.endpoint}${this.distinct_id}`).href;
             const res = this.request(url, this.payload, "PUT");
             return res;
         } catch (error) {
@@ -34,7 +34,7 @@ class Profile {
     async mergeProfiles(new_distinct_id) {
         try {
             const url = new URL(
-                `${this.endpoint}/${this.distinct_id}/merge/${new_distinct_id}`
+                `${this.endpoint}${this.distinct_id}/merge/${new_distinct_id}`
             ).href;
             this.distinct_id = new_distinct_id;
             return this.request(url);
@@ -45,7 +45,7 @@ class Profile {
 
     async addChannelData(channel_name, channel_data) {
         try {
-            const url = new URL(`${this.endpoint}/${this.distinct_id}/channel`)
+            const url = new URL(`${this.endpoint}${this.distinct_id}/channel`)
                 .href;
             const _channel_object = {
                 channel: {},
@@ -102,7 +102,7 @@ class Profile {
     async ClearChannelData(channel_name, token) {
         try {
             const url = new URL(
-                `${this.endpoint}/${this.distinct_id}/channel/delete`
+                `${this.endpoint}${this.distinct_id}/channel/delete`
             ).href;
             const _channel_object = {};
             if (Array.isArray(channel_name)) {
