@@ -1,13 +1,8 @@
 const { Fyno } = require("../src");
 
 const to = {
-    sms: "",
-    whatsapp: "",
-    email: "",
+    email: "ashwin@fyno.io",
     slack: "ashwin@fyno.io",
-    discord: "",
-    teams: "",
-    push: "",
 };
 
 const data = {
@@ -22,73 +17,35 @@ const success_response = {
     received_time: expect.anything(),
     event: event_name,
     response: {
-        sms: {
-            status: "error",
-            message: expect.anything(),
-        },
-        whatsapp: {
-            status: "error",
-            message: expect.anything(),
-        },
         email: {
-            status: "error",
-            message: expect.anything(),
+            status: "ok",
+            destination: to.email,
+            msg_id: expect.anything(),
         },
         slack: {
             status: "ok",
             destination: to.slack,
             msg_id: expect.anything(),
         },
-        discord: {
-            status: "error",
-            message: expect.anything(),
-        },
-        teams: {
-            status: "error",
-            message: expect.anything(),
-        },
-        push: {
-            status: "error",
-            message: expect.anything(),
-        },
     },
 };
 
 const success_response_batch = {
-    request_id: expect.anything(),
     received_time: expect.anything(),
     event: event_name,
     response: [
         {
+            request_id: expect.anything(),
             seq: 1,
-            sms: {
-                status: "error",
-                message: expect.anything(),
-            },
-            whatsapp: {
-                status: "error",
-                message: expect.anything(),
-            },
             email: {
-                status: "error",
-                message: expect.anything(),
+                status: "ok",
+                destination: to.email,
+                msg_id: expect.anything(),
             },
             slack: {
                 status: "ok",
                 destination: to.slack,
                 msg_id: expect.anything(),
-            },
-            discord: {
-                status: "error",
-                message: expect.anything(),
-            },
-            teams: {
-                status: "error",
-                message: expect.anything(),
-            },
-            push: {
-                status: "error",
-                message: expect.anything(),
             },
         },
     ],
