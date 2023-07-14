@@ -29,25 +29,25 @@ const failure_response = {
 describe("Creating user profile", () => {
     test("Should create a profile", async () => {
         const fyno = new Fyno();
-        const profile = await fyno.identify("testasda");
+        const profile = await fyno.identify("testcases");
         const response = await profile.create();
         expect(response.status).toBe(201);
     });
     test("Should update profile with channel data", async () => {
         const fyno = new Fyno();
-        await fyno.identify("testasda");
+        await fyno.identify("testcases");
         const response = await fyno.setWhatsapp("+919000504436");
         expect(response.data).toMatchObject(success_response.update);
     });
     test("Should delete channel against profile", async () => {
         const fyno = new Fyno();
-        await fyno.identify("testasda");
+        await fyno.identify("testcases");
         const response = await fyno.clearChannel("whatsapp", "+919000504436");
         expect(response.data).toMatchObject(success_response.channel_del);
     });
     test("Should throw an error as channel passed is not available", async () => {
         const fyno = new Fyno();
-        await fyno.identify("testasda");
+        await fyno.identify("testcases");
         try {
             const response = await fyno.clearChannel("sms");
         } catch (error) {
@@ -55,5 +55,14 @@ describe("Creating user profile", () => {
                 failure_response.channel_del
             );
         }
+    });
+
+    afterAll(() => {
+        const fyno = new Fyno();
+        fetch(`${fyno.endpoint}profiles/delete`, {
+            method: "POST",
+            headers: fyno.headers,
+            body: JSON.stringify({ distinct_id: ["testcases"] }),
+        });
     });
 });
