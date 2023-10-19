@@ -9,6 +9,22 @@ class Profile {
         this.headers = headers;
     }
 
+    async getProfile() {
+        try {
+            const url = new URL(`${this.endpoint}${this.distinct_id}`).href;
+            const res = this.request(url, this.payload, "GET");
+            return res;
+        } catch (error) {
+            if (error.response.status === 400) {
+                return this.createProfile(this.distinct_id);
+            } else if (error.response.status === 404) {
+                return new Error(`No Profile Found for the disctin_id`);
+            } else {
+                throw new Error(`Error while getting the profile`);
+            }
+        }
+    }
+
     async updateProfile() {
         try {
             const url = new URL(`${this.endpoint}${this.distinct_id}`).href;

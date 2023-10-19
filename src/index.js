@@ -65,6 +65,11 @@ class Fyno {
         return this;
     }
 
+    async getProfile(distinct_id) {
+        const profile = new Profile(this.endpoint, this.headers, distinct_id);
+        return profile.getProfile();
+    }
+
     async create() {
         return await this.profile.createProfile();
     }
