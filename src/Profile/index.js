@@ -12,7 +12,7 @@ class Profile {
     async getProfile() {
         try {
             const url = new URL(`${this.endpoint}${this.distinct_id}`).href;
-            const res = this.request(url, this.payload, "GET");
+            const res = this.request(url, null, "GET");
             return res;
         } catch (error) {
             if (error.response.status === 400) {
@@ -142,12 +142,14 @@ class Profile {
     }
 
     request = async (url, payload = null, method = "POST") => {
-        return await axios({
+        let axiosPayload = {
             method,
             url,
-            data: payload,
             headers: this.headers,
-        });
+        };
+        if (method !== "GET" && payload) axiosPayload.data = payload;
+        const response = await axios(axiosPayload);
+        return response;
     };
 }
 module.exports = Profile;
