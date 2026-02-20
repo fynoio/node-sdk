@@ -1,6 +1,6 @@
 {
   "name": "@fyno/node",
-  "version": "1.1.9",
+  "version": "1.1.11",
   "description": "This is the official Node.js module for sending notifications through Fyno.io.",
   "main": "src/index.js",
   "scripts": {
@@ -24,13 +24,15 @@
   "devDependencies": {
     "@types/jest": "^29.2.4",
     "jest": "^29.3.1",
+    "node-polyfill-webpack-plugin": "^4.1.0",
     "prettier": "^2.8.0",
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
     "@types/node": "^18.11.11",
-    "axios": "^1.2.0",
-    "axios-retry": "^3.3.1"
+    "axios": "1.13.5",
+    "axios-retry": "^3.3.1",
+    "https-proxy-agent": "^7.0.6"
   },
   "repository": {
     "type": "git",

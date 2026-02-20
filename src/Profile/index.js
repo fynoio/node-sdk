@@ -1,4 +1,4 @@
-const axios = require("axios");
+const { axiosInstance } = require("../httplib");
 
 class Profile {
     constructor(endpoint, headers, distinct_id, payload) {
@@ -142,12 +142,14 @@ class Profile {
     }
 
     request = async (url, payload = null, method = "POST") => {
-        return await axios({
+        let axiosPayload = {
             method,
             url,
-            data: payload,
             headers: this.headers,
-        });
+        };
+        if (method !== "GET" && payload) axiosPayload.data = payload;
+        const response = await axiosInstance(axiosPayload);
+        return response;
     };
 }
 module.exports = Profile;
