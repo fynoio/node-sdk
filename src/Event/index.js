@@ -21,8 +21,8 @@ class Event {
             retryCondition: (error) => {
                 // if retry condition is not specified, by default idempotent requests are retried
                 return (
-                    error.response.status !== 202 &&
-                    error.response.status !== 401
+                    error?.response?.status !== 202 &&
+                    error?.response?.status !== 401
                 );
             },
         });

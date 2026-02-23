@@ -12,7 +12,7 @@ class Profile {
     async getProfile() {
         try {
             const url = new URL(`${this.endpoint}${this.distinct_id}`).href;
-            const res = this.request(url, this.payload, "GET");
+            const res = this.request(url, null, "GET");
             return res;
         } catch (error) {
             if (error.response.status === 400) {
