@@ -1,4 +1,4 @@
-const axios = require("axios");
+const { axiosInstance } = require("../httplib");
 
 class Profile {
     constructor(endpoint, headers, distinct_id, payload) {
@@ -148,7 +148,7 @@ class Profile {
             headers: this.headers,
         };
         if (method !== "GET" && payload) axiosPayload.data = payload;
-        const response = await axios(axiosPayload);
+        const response = await axiosInstance(axiosPayload);
         return response;
     };
 }

@@ -1,5 +1,6 @@
 const axios = require("axios");
 const axiosRetry = require("axios-retry");
+const { axiosInstance } = require("../httplib");
 
 class Event {
     constructor(endpoint, headers, event, payload) {
@@ -29,7 +30,7 @@ class Event {
 
     trigger = async () => {
         return new Promise((resolve, reject) => {
-            axios
+            axiosInstance
                 .post(this.endpoint, this.payload, { headers: this.headers })
                 .then((resp) => {
                     resolve(resp.data);
