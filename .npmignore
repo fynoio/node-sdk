@@ -2,3 +2,6 @@ testing/
 package-lock.json
 test/
 .github
+src/
+.vscode/
+.git
