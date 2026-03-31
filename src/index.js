@@ -33,14 +33,10 @@ class Fyno {
 
     validate() {
         // the validation checks if the provided WSID, API Key, and Version values are correct
-        if (!this.wsid || this.wsid.length < 10 || this.wsid.length > 20) {
-            throw new Error(`Workspace ID value '${this.wsid}' is invalid`);
-        } else if (
-            !this.api_key ||
-            this.api_key.length < 25 ||
-            this.api_key.length > 60
-        ) {
-            throw new Error(`API Key value '${this.api_key}' is invalid`);
+        if (!this.wsid) {
+            throw new Error(`Workspace ID is invalid`);
+        } else if (!this.api_key) {
+            throw new Error(`API Key is invalid`);
         } else if (!["test", "live"].includes(`${this.version}`)) {
             throw new Error(
                 `Environment value '${this.version}' is invalid. It should be either 'test' or 'live'.`

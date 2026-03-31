@@ -22,6 +22,7 @@ if (proxyUrl) {
     axiosInstance = axios.create({
         httpAgent: proxyAgent,
         httpsAgent: proxyAgent,
+        proxy: false,
     });
 } else {
     httpsAgent = new httpsKeepAlive.Agent({ keepAlive: true });

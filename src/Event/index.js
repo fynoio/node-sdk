@@ -36,7 +36,7 @@ class Event {
                     resolve(resp.data);
                 })
                 .catch((error) => {
-                    reject(error.response?.data);
+                    reject(error.response?.data || error);
                 });
         });
     };
